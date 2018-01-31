@@ -15,6 +15,8 @@
     "@types/node": "^9.4.0",
     "chai": "^4.1.2",
     "mocha": "^5.0.0",
+    "nyc": "^11.4.1",
+    "source-map-support": "^0.5.3",
     "ts-loader": "^3.3.1",
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
@@ -23,6 +25,21 @@
   },
   "scripts": {
     "build": "webpack",
-    "test": "mocha -r ts-node/register src/**/*.spec.ts"
+    "test": "nyc mocha -r ts-node/register -r source-map-support/register src/**/*.spec.ts"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "**/*.spec.ts",
+      "**/*.js"
+    ],
+    "all": true,
+    "reporter": [
+      "text",
+      "html"
+    ]
   }
 }
