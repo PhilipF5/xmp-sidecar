@@ -5,7 +5,10 @@
 	],
 	"jsRules": {},
 	"rules": {
-		"indent": [true, "tabs", 4]
+		"indent": [true, "tabs", 4],
+		"no-unused-expression": false,
+		"prefer-const": false,
+		"variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"]
 	},
 	"rulesDirectory": []
 }
