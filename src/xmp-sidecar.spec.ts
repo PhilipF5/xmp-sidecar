@@ -30,9 +30,9 @@ describe("Property getters", () => {
 		expect(obj.rating).to.equal(4);
 	});
 	it("should have the tags 'google stuff', 'computer', 'home'", () => {
-		expect(obj.tags.includes("google stuff")).to.be.true;
-		expect(obj.tags.includes("computer")).to.be.true;
-		expect(obj.tags.includes("home")).to.be.true;
+		expect(obj.hasTag("google stuff")).to.be.true;
+		expect(obj.hasTag("computer")).to.be.true;
+		expect(obj.hasTag("home")).to.be.true;
 	});
 });
 
@@ -44,7 +44,7 @@ describe("Property setters", () => {
 	});
 	it("should add the tag 'tardis'", () => {
 		obj.addTag("tardis");
-		expect(obj.tags.includes("tardis")).to.be.true;
+		expect(obj.hasTag("tardis")).to.be.true;
 	});
 	it("should not duplicate the tag 'home'", () => {
 		obj.addTag("home");
@@ -58,7 +58,7 @@ describe("Property setters", () => {
 	});
 	it("should remove the tag 'google stuff'", () => {
 		obj.removeTag("google stuff");
-		expect(obj.tags.includes("google stuff")).to.be.false;
+		expect(obj.hasTag("google stuff")).to.be.false;
 	});
 });
 
@@ -66,5 +66,28 @@ describe("Static methods", () => {
 	it("should initialize new XmpSidecar object from file", () => {
 		const obj = XmpSidecar.load("../test.xmp");
 		expect(obj).to.not.be.null;
+	});
+});
+
+describe("Instance methods", () => {
+	it("should make changes and then save a copy", () => {
+		const obj = new XmpSidecar("../test.xmp");
+		obj.rating = 3;
+		obj.addTag("space");
+		obj.setAttribute("example", "an example attr");
+		const obj2 = obj.save("../test2.xmp");
+		expect(obj2.rating).to.equal(3);
+		expect(obj.hasTag("space")).to.be.true;
+		expect(obj.getAttribute("example")).to.equal("an example attr");
+	});
+	it("should make changes and then save in-place", () => {
+		const obj = new XmpSidecar("../test2.xmp");
+		obj.rating = 4;
+		obj.removeTag("space");
+		obj.removeAttribute("example");
+		const obj2 = obj.save();
+		expect(obj2.rating).to.equal(4);
+		expect(obj.hasTag("space")).to.be.false;
+		expect(obj.hasAttribute("example")).to.be.false;
 	});
 });
