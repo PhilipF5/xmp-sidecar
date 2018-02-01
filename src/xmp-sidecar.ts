@@ -3,24 +3,51 @@ import * as path from "path";
 import * as xml2js from "xml2js";
 
 export class XmpSidecar {
+	public static load(pathToFile: string) {
+		return new XmpSidecar(pathToFile);
+	}
+
 	private _filePath: path.ParsedPath;
-	private _id: string;
 	private _xml: any;
+
+	private get _descAttributes(): any {
+		return this._descObject.$;
+	}
+
+	private get _descObject(): any {
+		return this.rawXml["x:xmpmeta"]["rdf:RDF"][0]["rdf:Description"][0];
+	}
+
+	private get _descTags(): any {
+		return this._descObject["dc:subject"][0];
+	}
 
 	public get filePath(): string {
 		return path.format(this._filePath);
-	}
-
-	public get id(): string {
-		return this._id;
 	}
 
 	public get name(): string {
 		return this._filePath.name;
 	}
 
+	public get rating(): number {
+		return Number(this._descAttributes["xmp:Rating"]);
+	}
+
+	public set rating(value: number) {
+		this._descAttributes["xmp:Rating"] = String(value);
+	}
+
 	public get rawXml(): any {
 		return this._xml;
+	}
+
+	public get tags(): string[] {
+		return this._descTags["rdf:Bag"][0]["rdf:li"];
+	}
+
+	public set tags(value: string[]) {
+		this._descTags["rdf:Bag"][0]["rdf:li"] = value;
 	}
 
 	constructor(pathToFile: string) {
@@ -35,5 +62,17 @@ export class XmpSidecar {
 		xml2js.parseString(fs.readFileSync(this.filePath), (err, result) => {
 			this._xml = result;
 		});
+	}
+
+	public addTag(tag: string): string[] {
+		if (!this.tags.includes(tag)) {
+			this.tags.push(tag);
+		}
+		return this.tags;
+	}
+
+	public removeTag(tag: string): string[] {
+		this.tags = this.tags.filter((item) => item !== tag);
+		return this.tags;
 	}
 }
