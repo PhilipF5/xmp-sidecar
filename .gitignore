@@ -63,8 +63,7 @@ typings/
 
 # Build and files used for testing
 *.d.ts
-xmp-sidecars.js
-*.xmp
+xmp-sidecar.js
 *.jpg
 *.png
 

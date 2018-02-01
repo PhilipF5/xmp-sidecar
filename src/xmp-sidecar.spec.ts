@@ -2,16 +2,19 @@ import { expect } from "chai";
 import "mocha";
 import { XmpSidecar } from "./xmp-sidecar";
 
+const testFile1 = "../test/test-1.xmp";
+const testFile2 = "../test/test-2.xmp";
+
 describe("XmpSidecar constructor", () => {
-	const obj = new XmpSidecar("../test.xmp");
+	const obj = new XmpSidecar(testFile1);
 	it("should succeed when the file is an XMP", () => {
-		expect(() => { new XmpSidecar("../test.xmp"); }).to.not.throw();
+		expect(() => { new XmpSidecar(testFile1); }).to.not.throw();
 	});
 	it("should succeed when the file has an XMP sidecar", () => {
-		expect(() => { new XmpSidecar("../test.jpg"); }).to.not.throw();
+		expect(() => { new XmpSidecar(testFile1.replace(".xmp", ".jpg")); }).to.not.throw();
 	});
-	it("should have the name 'test'", () => {
-		expect(obj.name).to.equal("test");
+	it("should have the name 'test-1'", () => {
+		expect(obj.name).to.equal("test-1");
 	});
 	it("should have the rawXml property", () => {
 		expect(obj.rawXml).to.not.be.null;
@@ -25,7 +28,7 @@ describe("XmpSidecar constructor", () => {
 });
 
 describe("Property getters", () => {
-	const obj = new XmpSidecar("../test.xmp");
+	const obj = new XmpSidecar(testFile1);
 	it("should have a rating of 4", () => {
 		expect(obj.rating).to.equal(4);
 	});
@@ -37,7 +40,7 @@ describe("Property getters", () => {
 });
 
 describe("Property setters", () => {
-	const obj = new XmpSidecar("../test.xmp");
+	const obj = new XmpSidecar(testFile1);
 	it("should change the rating to 2", () => {
 		obj.rating = 2;
 		expect(obj.rating).to.equal(2);
@@ -64,24 +67,24 @@ describe("Property setters", () => {
 
 describe("Static methods", () => {
 	it("should initialize new XmpSidecar object from file", () => {
-		const obj = XmpSidecar.load("../test.xmp");
+		const obj = XmpSidecar.load(testFile1);
 		expect(obj).to.not.be.null;
 	});
 });
 
 describe("Instance methods", () => {
 	it("should make changes and then save a copy", () => {
-		const obj = new XmpSidecar("../test.xmp");
+		const obj = new XmpSidecar(testFile1);
 		obj.rating = 3;
 		obj.addTag("space");
 		obj.setAttribute("example", "an example attr");
-		const obj2 = obj.save("../test2.xmp");
+		const obj2 = obj.save(testFile2);
 		expect(obj2.rating).to.equal(3);
 		expect(obj.hasTag("space")).to.be.true;
 		expect(obj.getAttribute("example")).to.equal("an example attr");
 	});
 	it("should make changes and then save in-place", () => {
-		const obj = new XmpSidecar("../test2.xmp");
+		const obj = new XmpSidecar(testFile2);
 		obj.rating = 4;
 		obj.removeTag("space");
 		obj.removeAttribute("example");
