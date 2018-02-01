@@ -71,6 +71,23 @@ export class XmpSidecar {
 		return this.tags;
 	}
 
+	public getAttribute(name: string): string {
+		return this._descAttributes[name];
+	}
+
+	public hasAttribute(name: string): boolean {
+		return this._descAttributes[name] !== undefined;
+	}
+
+	public hasTag(tag: string): boolean {
+		return this.tags.includes(tag);
+	}
+
+	public removeAttribute(name: string): any {
+		delete this._descAttributes[name];
+		return this._descAttributes;
+	}
+
 	public removeTag(tag: string): string[] {
 		this.tags = this.tags.filter((item) => item !== tag);
 		return this.tags;
@@ -84,5 +101,10 @@ export class XmpSidecar {
 		filePath = filePath || path.format(this._filePath);
 		fs.writeFileSync(filePath, builder.buildObject(this.rawXml));
 		return new XmpSidecar(filePath);
+	}
+
+	public setAttribute(name: string, value: string): any {
+		this._descAttributes[name] = value;
+		return this._descAttributes;
 	}
 }
