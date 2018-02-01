@@ -75,4 +75,14 @@ export class XmpSidecar {
 		this.tags = this.tags.filter((item) => item !== tag);
 		return this.tags;
 	}
+
+	public save(filePath?: string): XmpSidecar {
+		let builder = new xml2js.Builder();
+		if (filePath) {
+			filePath = path.resolve(__dirname, filePath);
+		}
+		filePath = filePath || path.format(this._filePath);
+		fs.writeFileSync(filePath, builder.buildObject(this.rawXml));
+		return new XmpSidecar(filePath);
+	}
 }
