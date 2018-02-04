@@ -9,5 +9,10 @@ module.exports = {
 	},
 	module: {
 		loaders: [{ test: /\.ts$/, loader: "ts-loader" }]
+	},
+	externals: {
+		fs: "fs",
+		path: "path",
+		xml2js: "xml2js"
 	}
 };
