@@ -1,7 +1,7 @@
 module.exports = {
-	entry: './src/xmp-sidecars.ts',
+	entry: './src/xmp-sidecar.ts',
 	output: {
-		filename: 'xmp-sidecars.js',
+		filename: 'xmp-sidecar.js',
 		path: __dirname
 	},
 	resolve: {
