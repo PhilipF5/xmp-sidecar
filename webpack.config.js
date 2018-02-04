@@ -2,7 +2,9 @@ module.exports = {
 	entry: './src/xmp-sidecar.ts',
 	output: {
 		filename: 'xmp-sidecar.js',
-		path: __dirname
+		path: __dirname,
+		library: "XmpSidecar",
+		libraryTarget: "commonjs"
 	},
 	resolve: {
 		extensions: [".ts", ".js"]
