@@ -53,6 +53,7 @@ export class XmpSidecar {
 	constructor(pathToFile: string) {
 		let filePath = path.resolve(__dirname, pathToFile);
 		this._filePath = path.parse(filePath);
+		this._filePath.base = this._filePath.base.replace(this._filePath.ext, ".xmp");
 		this._filePath.ext = ".xmp";
 
 		if (!fs.existsSync(this.filePath)) {
