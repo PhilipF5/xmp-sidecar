@@ -3,11 +3,36 @@ import * as path from "path";
 import * as xml2js from "xml2js";
 
 export class XmpSidecar {
-	public static load(pathToFile: string) {
-		return new XmpSidecar(pathToFile);
+	public static async load(pathToFile: string, { createImmediately, fsModule, pathModule }: { createImmediately?: boolean, fsModule?: typeof fs.promises, pathModule?: typeof path } = {}) {
+		const object = new XmpSidecar(pathToFile, { fsModule, pathModule });
+		let sidecarContents;
+		try {
+			sidecarContents = await object._fs.readFile(object.filePath);
+		} catch {
+			const defaultSidecar = `
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+		<rdf:Description rdf:about="" xmlns:MicrosoftPhoto="http://ns.microsoft.com/photo/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:fstop="http://www.fstopapp.com/xmp/">
+			<dc:subject>
+				<rdf:Bag>
+					<rdf:li></rdf:li>
+				</rdf:Bag>
+			</dc:subject>
+		</rdf:Description>
+	</rdf:RDF>
+</x:xmpmeta>`;
+			sidecarContents = defaultSidecar;
+			createImmediately && (await object._fs.writeFile(object.filePath, defaultSidecar));
+		}
+
+		object._xml = await xml2js.parseStringPromise(sidecarContents);
+		return object;
 	}
 
 	private _filePath: path.ParsedPath;
+	private _fs: typeof fs.promises;
+	private _path: typeof path;
 	private _xml: any;
 
 	private get _descAttributes(): any {
@@ -23,7 +48,7 @@ export class XmpSidecar {
 	}
 
 	public get filePath(): string {
-		return path.format(this._filePath);
+		return this._path.format(this._filePath);
 	}
 
 	public get name(): string {
@@ -50,25 +75,23 @@ export class XmpSidecar {
 		this._descTags["rdf:Bag"][0]["rdf:li"] = value;
 	}
 
-	constructor(pathToFile: string) {
-		let filePath = path.resolve(__dirname, pathToFile);
-		this._filePath = path.parse(filePath);
+	constructor(pathToFile: string, modules?: { fsModule?: typeof fs.promises, pathModule?: typeof path }) {
+		this._fs = modules?.fsModule ?? fs.promises;
+		this._path = modules?.pathModule ?? path;
+		this._filePath = this._path.parse(this._path.resolve(__dirname, pathToFile));
 		this._filePath.base = this._filePath.base.replace(this._filePath.ext, ".xmp");
 		this._filePath.ext = ".xmp";
-
-		if (!fs.existsSync(this.filePath)) {
-			throw new Error("XMP sidecar not found at: " + this.filePath);
-		}
-
-		xml2js.parseString(fs.readFileSync(this.filePath), (err, result) => {
-			this._xml = result;
-		});
 	}
 
 	public addTag(tag: string): string[] {
 		if (!this.tags.includes(tag)) {
-			this.tags.push(tag);
+			this.tags = [...this.tags.filter((t) => !!t), tag];
 		}
+		return this.tags;
+	}
+
+	public addTags(tags: string[]): string[] {
+		this.tags = [...this.tags.filter((t) => !!t), ...tags.filter((t) => !this.tags.includes(t))];
 		return this.tags;
 	}
 
@@ -94,14 +117,14 @@ export class XmpSidecar {
 		return this.tags;
 	}
 
-	public save(filePath?: string): XmpSidecar {
+	public async save(filePath?: string): Promise<XmpSidecar> {
 		let builder = new xml2js.Builder();
 		if (filePath) {
-			filePath = path.resolve(__dirname, filePath);
+			filePath = this._path.resolve(__dirname, filePath);
 		}
-		filePath = filePath || path.format(this._filePath);
-		fs.writeFileSync(filePath, builder.buildObject(this.rawXml));
-		return new XmpSidecar(filePath);
+		filePath = filePath || this._path.format(this._filePath);
+		await this._fs.writeFile(filePath, builder.buildObject(this.rawXml));
+		return XmpSidecar.load(filePath, { fsModule: this._fs, pathModule: this._path });
 	}
 
 	public setAttribute(name: string, value: string): any {
