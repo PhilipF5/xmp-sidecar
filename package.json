@@ -1,5 +1,5 @@
 {
-	"name": "xmp-sidecar",
+	"name": "@philipf5/xmp-sidecar",
 	"version": "0.1.0",
 	"description": "Reads and writes XMP sidecar files for image metadata",
 	"main": "XmpSidecar.js",
