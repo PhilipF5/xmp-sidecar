@@ -1,4 +1,9 @@
 /src/
+/test/
+.nvmrc
+.prettierrc
+test.jpg
+jest.config.js
 gulpfile.js
 tsconfig.json
 webpack.config.js
