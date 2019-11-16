@@ -1,5 +1,6 @@
 /src/
 /test/
+/.github/
 .nvmrc
 .prettierrc
 test.jpg
