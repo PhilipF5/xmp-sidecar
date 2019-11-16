@@ -3,7 +3,14 @@ import * as path from "path";
 import * as xml2js from "xml2js";
 
 export class XmpSidecar {
-	public static async load(pathToFile: string, { createImmediately, fsModule, pathModule }: { createImmediately?: boolean, fsModule?: typeof fs.promises, pathModule?: typeof path } = {}) {
+	public static async load(
+		pathToFile: string,
+		{
+			createImmediately,
+			fsModule,
+			pathModule,
+		}: { createImmediately?: boolean; fsModule?: typeof fs.promises; pathModule?: typeof path } = {},
+	) {
 		const object = new XmpSidecar(pathToFile, { fsModule, pathModule });
 		let sidecarContents;
 		try {
@@ -75,7 +82,7 @@ export class XmpSidecar {
 		this._descTags["rdf:Bag"][0]["rdf:li"] = value;
 	}
 
-	constructor(pathToFile: string, modules?: { fsModule?: typeof fs.promises, pathModule?: typeof path }) {
+	constructor(pathToFile: string, modules?: { fsModule?: typeof fs.promises; pathModule?: typeof path }) {
 		this._fs = modules?.fsModule ?? fs.promises;
 		this._path = modules?.pathModule ?? path;
 		this._filePath = this._path.parse(this._path.resolve(__dirname, pathToFile));

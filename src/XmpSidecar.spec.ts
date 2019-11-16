@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import "mocha";
-import { XmpSidecar } from "./xmp-sidecar";
+import { XmpSidecar } from "./XmpSidecar";
 
 const testFile1 = "../test/test-1.xmp";
 const testFile2 = "../test/test-2.xmp";
@@ -8,10 +8,14 @@ const testFile2 = "../test/test-2.xmp";
 describe("XmpSidecar constructor", () => {
 	const obj = new XmpSidecar(testFile1);
 	it("should succeed when the file is an XMP", () => {
-		expect(() => { new XmpSidecar(testFile1); }).to.not.throw();
+		expect(() => {
+			new XmpSidecar(testFile1);
+		}).to.not.throw();
 	});
 	it("should succeed when the file has an XMP sidecar", () => {
-		expect(() => { new XmpSidecar(testFile1.replace(".xmp", ".jpg")); }).to.not.throw();
+		expect(() => {
+			new XmpSidecar(testFile1.replace(".xmp", ".jpg"));
+		}).to.not.throw();
 	});
 	it("should have the name 'test-1'", () => {
 		expect(obj.name).to.equal("test-1");
@@ -23,7 +27,9 @@ describe("XmpSidecar constructor", () => {
 		expect(obj.rawXml["x:xmpmeta"]).to.not.be.undefined;
 	});
 	it("should throw when the file can't be found", () => {
-		expect(() => { new XmpSidecar("fake-file.xmp"); }).to.throw();
+		expect(() => {
+			new XmpSidecar("fake-file.xmp");
+		}).to.throw();
 	});
 });
 
