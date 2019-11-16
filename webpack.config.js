@@ -1,20 +1,20 @@
 module.exports = {
-	entry: './src/xmp-sidecar.ts',
+	entry: "./src/XmpSidecar.ts",
 	output: {
-		filename: 'xmp-sidecar.js',
+		filename: "XmpSidecar.js",
 		path: __dirname,
 		library: "XmpSidecar",
-		libraryTarget: "commonjs"
+		libraryTarget: "commonjs",
 	},
 	resolve: {
-		extensions: [".ts", ".js"]
+		extensions: [".ts", ".js"],
 	},
 	module: {
-		loaders: [{ test: /\.ts$/, loader: "ts-loader" }]
+		loaders: [{ test: /\.ts$/, loader: "ts-loader" }],
 	},
 	externals: {
 		fs: "fs",
 		path: "path",
-		xml2js: "xml2js"
-	}
+		xml2js: "xml2js",
+	},
 };
