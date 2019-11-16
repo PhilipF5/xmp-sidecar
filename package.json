@@ -18,6 +18,10 @@
 	"publishConfig": {
 		"registry": "https://npm.pkg.github.com"
 	},
+	"files": [
+		"XmpSidecar.d.ts",
+		"XmpSidecar.js"
+	],
 	"dependencies": {
 		"xml2js": "0.4.22"
 	},
