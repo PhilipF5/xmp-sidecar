@@ -7,7 +7,7 @@
 	"repository": "git://github.com/philipf5/xmp-sidecar.git",
 	"license": "MIT",
 	"scripts": {
-		"build": "webpack",
+		"build": "tsc",
 		"test": "jest"
 	},
 	"husky": {
@@ -29,11 +29,7 @@
 		"jest": "24.9.0",
 		"prettier": "1.19.1",
 		"pretty-quick": "2.0.1",
-		"source-map-support": "0.5.16",
 		"ts-jest": "24.1.0",
-		"ts-loader": "3.3.1",
-		"ts-node": "8.4.1",
-		"typescript": "3.7.2",
-		"webpack": "3.10.0"
+		"typescript": "3.7.2"
 	}
 }
