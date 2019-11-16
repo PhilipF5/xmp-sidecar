@@ -6,20 +6,19 @@
 	"author": "Philip Fulgham <philfulgham@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
-		"@types/node": "12.12.7",
-		"@types/xml2js": "0.4.5",
 		"xml2js": "0.4.22"
 	},
 	"devDependencies": {
-		"@types/chai": "4.2.4",
-		"@types/mocha": "5.2.7",
-		"chai": "4.2.0",
+		"@types/jest": "24.0.23",
+		"@types/node": "12.12.7",
+		"@types/xml2js": "0.4.5",
 		"husky": "3.0.9",
-		"mocha": "6.2.2",
+		"jest": "24.9.0",
 		"nyc": "14.1.1",
 		"prettier": "1.19.1",
 		"pretty-quick": "2.0.1",
 		"source-map-support": "0.5.16",
+		"ts-jest": "24.1.0",
 		"ts-loader": "6.2.1",
 		"ts-node": "8.4.1",
 		"typescript": "3.7.2",
@@ -27,7 +26,7 @@
 	},
 	"scripts": {
 		"build": "webpack",
-		"test": "nyc mocha -r ts-node/register -r source-map-support/register src/**/*.spec.ts"
+		"test": "jest"
 	},
 	"husky": {
 		"hooks": {
