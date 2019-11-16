@@ -26,11 +26,6 @@ describe("XmpSidecar constructor", () => {
 		const obj = await XmpSidecar.load(testFile1);
 		expect(obj.rawXml["x:xmpmeta"]).not.toBeUndefined();
 	});
-	test("should throw when the file can't be found", () => {
-		expect(async () => {
-			await XmpSidecar.load("fake-file.xmp");
-		}).toThrow();
-	});
 });
 
 describe("Property getters", () => {
