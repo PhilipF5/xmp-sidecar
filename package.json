@@ -14,7 +14,6 @@
 		"@types/xml2js": "0.4.5",
 		"husky": "3.0.9",
 		"jest": "24.9.0",
-		"nyc": "14.1.1",
 		"prettier": "1.19.1",
 		"pretty-quick": "2.0.1",
 		"source-map-support": "0.5.16",
@@ -32,20 +31,5 @@
 		"hooks": {
 			"pre-commit": "pretty-quick --staged"
 		}
-	},
-	"nyc": {
-		"extension": [
-			".ts"
-		],
-		"exclude": [
-			"**/*.d.ts",
-			"**/*.spec.ts",
-			"**/*.js"
-		],
-		"all": true,
-		"reporter": [
-			"text",
-			"html"
-		]
 	}
 }
