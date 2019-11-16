@@ -3,8 +3,21 @@
 	"version": "0.1.0",
 	"description": "Reads and writes XMP sidecar files for image metadata",
 	"main": "XmpSidecar.js",
-	"author": "Philip Fulgham <philfulgham@gmail.com>",
+	"author": "Philip Fulgham (https://www.philipfulgham.com)",
+	"repository": "git://github.com/philipf5/xmp-sidecar.git",
 	"license": "MIT",
+	"scripts": {
+		"build": "webpack",
+		"test": "jest"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "pretty-quick --staged"
+		}
+	},
+	"publishConfig": {
+		"registry": "https://npm.pkg.github.com"
+	},
 	"dependencies": {
 		"xml2js": "0.4.22"
 	},
@@ -22,14 +35,5 @@
 		"ts-node": "8.4.1",
 		"typescript": "3.7.2",
 		"webpack": "3.10.0"
-	},
-	"scripts": {
-		"build": "webpack",
-		"test": "jest"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "pretty-quick --staged"
-		}
 	}
 }
