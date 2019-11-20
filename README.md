@@ -17,7 +17,7 @@ $ npm install @philipf5/xmp-sidecar
 ```js
 import { XmpSidecar } from "@philipf5/xmp-sidecar";
 // ...
-let mySidecar = await XmpSidecar.load("relative/path/to/image.jpg");
+let mySidecar = await XmpSidecar.load("relative/or/absolute/path/to/image.jpg");
 ```
 You can also use the path to the `.xmp` file itself, if it already exists. If you use the image path, it's expected that the `.xmp` should use the same file name as the image (e.g., `IMG_0001.png` has sidecar `IMG_0001.xmp`);
 
