@@ -1,6 +1,6 @@
 {
 	"name": "@philipf5/xmp-sidecar",
-	"version": "0.2.0-pre.7",
+	"version": "1.0.0",
 	"description": "Reads and writes XMP sidecar files for image metadata",
 	"main": "XmpSidecar.js",
 	"author": "Philip Fulgham (https://www.philipfulgham.com)",
