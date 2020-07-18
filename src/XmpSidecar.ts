@@ -51,6 +51,9 @@ export class XmpSidecar {
 	}
 
 	private get _descTags(): any {
+		if (!this._descObject["dc:subject"]) {
+			this._descObject["dc:subject"] = [{ "rdf:Bag": [{ "rdf:li": [] }] }];
+		}
 		return this._descObject["dc:subject"][0];
 	}
 
